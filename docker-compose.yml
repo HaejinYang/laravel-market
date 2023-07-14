@@ -10,7 +10,6 @@ services:
             - ./docker/php/conf.d:/usr/local/etc/php/conf.d/
     mysql:
         image: mysql:latest
-        container_name: blog-db
         command: --default-authentication-plugin=mysql_native_password
         restart: always
         ports:
