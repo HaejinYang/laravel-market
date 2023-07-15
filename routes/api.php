@@ -7,6 +7,7 @@ use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,31 +22,31 @@ use Illuminate\Support\Facades\Route;
 /*
  * Buyers
  */
-Route::resource('buyers', BuyerController::class)->only(['index', 'show']);
+Route::apiResource('buyers', BuyerController::class)->only(['index', 'show']);
 
 /*
  * Categories
  */
-Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
+Route::apiResource('categories', CategoryController::class);
 
 /*
  * Sellers
  */
-Route::resource('sellers', SellerController::class)->only(['index', 'show']);
+Route::apiResource('sellers', SellerController::class)->only(['index', 'show']);
 
 /*
  * Transactions
  */
-Route::resource('transactions', TransactionController::class)->only(['index', 'show']);
+Route::apiResource('transactions', TransactionController::class)->only(['index', 'show']);
 
 /*
  * Products
  */
-Route::resource('products', ProductController::class)->only(['index', 'show']);
+Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 
 /*
  * Users
  */
-Route::resource('users', UserController::class)->except(['create', 'edit']);
+Route::apiResource('users', UserController::class)
 
 
