@@ -7,13 +7,14 @@ RUN apt-get update && \
 
 RUN a2enmod rewrite
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-RUN docker-php-ext-install pdo_mysql zip opcache
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN pecl install xdebug
+RUN docker-php-ext-install pdo_mysql zip opcache && docker-php-ext-enable pdo_mysql zip opcache
+COPY conf.d /usr/local/etc/php/conf.d
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 WORKDIR /var/www/html
 
