@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->admin == self::ADMIN_USER;
     }
 
+    public function unverify()
+    {
+        $this->verified = self::UNVERIFIED_USER;
+    }
+
+    public function regenerateVerificationCode()
+    {
+        $this->verification_token = self::generateVerificationCode();
+    }
+
     public static function generateVerificationCode(): string
     {
         return Str::random(40);

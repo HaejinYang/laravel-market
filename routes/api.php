@@ -47,6 +47,4 @@ Route::apiResource('products', ProductController::class)->only(['index', 'show']
 /*
  * Users
  */
-Route::apiResource('users', UserController::class)
-
-
+Route::apiResource('users', UserController::class);
