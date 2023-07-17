@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return response()->json(['data' => $users], 200);
+        return response()->json(['data' => $users], Response::HTTP_OK);
     }
 
     /**
@@ -40,7 +40,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        return response()->json(['data' => $user], 200);
+        return response()->json(['data' => $user], Response::HTTP_OK);
     }
 
     /**
@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return response()->json(['data' => $user], 200);
+        return response()->json(['data' => $user], Response::HTTP_OK);
     }
 
     /**
@@ -95,7 +95,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json(['data' => $user], 200);
+        return response()->json(['data' => $user], Response::HTTP_OK);
     }
 
     /**
@@ -106,6 +106,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['data' => $user], 200);
+        return response()->json(['data' => $user], Response::HTTP_OK);
     }
 }
