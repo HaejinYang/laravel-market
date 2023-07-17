@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Buyer;
+use Illuminate\Http\Response;
 
 class BuyerController extends Controller
 {
@@ -12,7 +13,9 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
+        $buyers = Buyer::has('transactions')->get();
+
+        return response()->json(['data' => $buyers], Response::HTTP_OK);
     }
 
     /**
@@ -20,6 +23,8 @@ class BuyerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $buyer = Buyer::has('transactions')->findOrFail($id);
+
+        return response()->json(['data' => $buyer], Response::HTTP_OK);
     }
 }
