@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return response()->json(['data' => $users], Response::HTTP_OK);
+        return $this->showAll($users);
     }
 
     /**
@@ -40,7 +41,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        return response()->json(['data' => $user], Response::HTTP_OK);
+        return $this->showOne($user, Response::HTTP_CREATED);
     }
 
     /**
@@ -50,7 +51,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return response()->json(['data' => $user], Response::HTTP_OK);
+        return $this->showOne($user);
     }
 
     /**
@@ -83,19 +84,19 @@ class UserController extends Controller
 
         if ($request->has('admin')) {
             if (!$user->isVerified()) {
-                return response()->json(['error' => '인증된 유저만 어드민 필드를 변경할 수 있습니다', 'code' => Response::HTTP_CONFLICT], Response::HTTP_CONFLICT);
+                return $this->errorResponse('인증된 유저만 어드민 필드를 변경할 수 있습니다', Response::HTTP_CONFLICT);
             }
 
             $user->admin = $request->admin;
         }
 
         if (!$user->isDirty()) {
-            return response()->json(['error' => '업데이트할 변경된 값이 없습니다.', 'code' => Response::HTTP_UNPROCESSABLE_ENTITY], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse('업데이트할 변경된 값이 없습니다.', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $user->save();
 
-        return response()->json(['data' => $user], Response::HTTP_OK);
+        return $this->showOne($user);
     }
 
     /**
@@ -106,6 +107,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['data' => $user], Response::HTTP_OK);
+        return $this->showOne($user);
     }
 }
