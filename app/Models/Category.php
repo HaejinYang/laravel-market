@@ -10,10 +10,11 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $hidden = ['pivot'];
     protected $dates = ['deleted_at'];
     protected $fillable = [
-      'name',
-      'description',
+        'name',
+        'description',
     ];
 
     public function products()
