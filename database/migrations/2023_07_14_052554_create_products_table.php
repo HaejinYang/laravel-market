@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image');
             $table->bigInteger('seller_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes(); // deleted_at 컬럼이 추가된다.
 
             $table->foreign('seller_id')->references('id')->on('users');
         });
