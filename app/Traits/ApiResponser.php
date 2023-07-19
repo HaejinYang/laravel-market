@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 trait ApiResponser
 {
