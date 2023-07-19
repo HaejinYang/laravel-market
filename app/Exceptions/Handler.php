@@ -3,12 +3,16 @@
 namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Throwable;
@@ -51,6 +55,27 @@ class Handler extends ExceptionHandler
         if($e instanceof ValidationException) {
             return $this->errorResponse($e->validator->errors()->getMessages(),Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        if($e instanceof AuthenticationException) {
+            return $this->errorResponse("인증이 안되었습니다.", Response::HTTP_UNAUTHORIZED);
+        }
+
+        if($e instanceof UnauthorizedException) {
+            return $this->errorResponse($e->getMessages(),Response::HTTP_FORBIDDEN);
+        }
+
+        if($e instanceof NotFoundHttpException) {
+            return $this->errorResponse('URL이 없습니다', Response::HTTP_NOT_FOUND);
+        }
+
+        if($e instanceof MethodNotAllowedHttpException) {
+            return $this->errorResponse('요청에 대한 메소드를 처리할 수 없습니다.', Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+
+        if($e instanceof HttpException) {
+            return $this->errorResponse($e->getMessage(), $e->getStatusCode());
+        }
+
 
         return parent::render($request, $e);
     }
