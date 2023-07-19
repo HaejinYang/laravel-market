@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
 use App\Models\Buyer;
-use Illuminate\Http\Response;
 
 class BuyerController extends ApiController
 {
@@ -22,10 +20,8 @@ class BuyerController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Buyer $buyer)
     {
-        $buyer = Buyer::has('transactions')->findOrFail($id);
-
         return $this->showOne($buyer);
     }
 }
