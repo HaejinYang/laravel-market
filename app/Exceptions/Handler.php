@@ -6,6 +6,7 @@ use App\Traits\ApiResponser;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -76,7 +77,17 @@ class Handler extends ExceptionHandler
             return $this->errorResponse($e->getMessage(), $e->getStatusCode());
         }
 
+        if($e instanceof QueryException) {
+            $code = $e->errorInfo[1];
+            if($code == 1451) {
+                return $this->errorResponse("다른 리소스와 연관되어 있어 지울 수 없습니다.", Response::HTTP_CONFLICT);
+            }
+        }
 
-        return parent::render($request, $e);
+        if(config('app.debug')) {
+            return parent::render($request, $e);
+        }
+
+        return $this->errorResponse('예기치 않은 예외입니다', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
