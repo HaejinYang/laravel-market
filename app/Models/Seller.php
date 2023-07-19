@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\BuyerScope;
+use App\Scopes\SellerScope;
 
 class Seller extends User
 {
@@ -10,7 +10,7 @@ class Seller extends User
     {
         parent::boot();
 
-        static::addGlobalScope(new BuyerScope());
+        static::addGlobalScope(new SellerScope());
     }
 
     public function products()
