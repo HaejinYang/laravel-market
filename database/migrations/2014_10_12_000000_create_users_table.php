@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('admin')->default(User::REGULAR_USER);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes(); // deleted_at 컬럼이 추가된다.
         });
     }
 
