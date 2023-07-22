@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Fractal\FractalServiceProvider;
 
 return [
 
@@ -42,7 +43,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +160,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        FractalServiceProvider::class,
         /*
          * Application Service Providers...
          */
