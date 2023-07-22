@@ -26,6 +26,16 @@ class DatabaseSeeder extends Seeder
         DB::table('category_product')->truncate();
         Schema::enableForeignKeyConstraints();
 
+        /*
+         *  유저가 생성될 때 이메일을 보내도록 이벤트를 정의했다. 문제는 seeding 단계에서도 이벤트가 발생한다는 것.
+         *  따라서 이벤트를 보내지 않도록 해야한다.
+         */
+        User::flushEventListeners();
+        Category::flushEventListeners();
+        Product::flushEventListeners();
+        Transaction::flushEventListeners();
+
+
         $usersQuantity = 200;
         $categoriesQuantity = 30;
         $productsQuantity = 1000;
