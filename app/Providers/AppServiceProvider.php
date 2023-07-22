@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Mail\UserCreated;
+use App\Mail\UserMailChanged;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -29,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
 
         User::created(function ($user) {
             Mail::to($user->email)->send(new UserCreated($user));
+        });
+
+        User::updated(function ($user) {
+            if ($user->isDirty('email')) {
+                Mail::to($user->email)->send(new UserMailChanged($user));
+            }
         });
 
         // Product가 상속하는 모델 클래스의 HasEvents에 정의되어있음.
