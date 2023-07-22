@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
+use App\Mail\UserCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
@@ -116,5 +117,16 @@ class UserController extends ApiController
         $user->save();
 
         return $this->showMessage('인증되었습니다.');
+    }
+
+    public function resend(User $user)
+    {
+        if ($user->isVerified()) {
+            return $this->errorResponse("이미 인증된 유저입니다", Response::HTTP_CONFLICT);
+        }
+
+        Mail::to($user)->send(new UserCreated($user));
+
+        return $this->showMessage("인증 메을 재전송했습니다");
     }
 }

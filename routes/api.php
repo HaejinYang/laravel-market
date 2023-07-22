@@ -85,3 +85,4 @@ Route::apiResource('products.buyers.transactions', ProductBuyerTransactionContro
  */
 Route::apiResource('users', UserController::class);
 Route::get('users/verify/{token}', [UserController::class, 'verify'])->name('verify');
+Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
